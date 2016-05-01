@@ -1,6 +1,6 @@
 {
   "name": "fb-chatbot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NPM module that helps you build facebook chatbots.",
   "main": "index.js",
   "scripts": {
