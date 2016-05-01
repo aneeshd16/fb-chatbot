@@ -9,7 +9,7 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
     var self = this;
 
     this.sendTextMessage = sendTextMessage;
-    this.subscibe = subscibe;
+    this.subscribe = subscribe;
 
     //Clean path
     if (path.substr(-1) === '/') {
@@ -91,7 +91,7 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
     }).listen(port);
 
     // console.log('Server running at localhost:' + port);
-    this.subscibe = function(callback) {
+    function subscribe(callback) {
     	request({
     		url: 'https://graph.facebook.com/v2.6/me/subscribed_apps',
     		qs: { access_token: access_token },
