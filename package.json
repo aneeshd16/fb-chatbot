@@ -1,0 +1,24 @@
+{
+    "name": "fb-chatbot",
+    "version": "1.0.0",
+    "description": "NPM module that helps you build facebook chatbots.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/aneeshd16/fb-chatbot.git"
+    },
+    "keywords": [
+        "chatbot",
+        "bot",
+        "facebook",
+        "fb"
+    ],
+    "author": "Aneesh Devasthale <aneeshdevasthale@gmail.com>",
+    "license": "ISC",
+    "dependencies": {
+        "request": "^2.72.0"
+    }
+}
