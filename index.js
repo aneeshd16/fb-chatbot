@@ -9,6 +9,7 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
     var self = this;
 
     this.sendTextMessage = sendTextMessage;
+    this.subscibe = subscibe;
 
     //Clean path
     if (path.substr(-1) === '/') {
@@ -86,12 +87,17 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
                 response.writeHead(200, { 'Content-Type': 'text/html' });
                 response.end('post received');
             }
-        } else {
-            response.end('wat')
         }
     }).listen(port);
 
     // console.log('Server running at localhost:' + port);
+    this.subscibe = function(callback) {
+    	request({
+    		url: 'https://graph.facebook.com/v2.6/me/subscribed_apps',
+    		qs: { access_token: access_token },
+    		method: 'POST',
+    	}, callback);
+    }
 
     function sendMessage(senderId, messageData, callback) {
         request({
