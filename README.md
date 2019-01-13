@@ -1,7 +1,7 @@
-﻿# fb-chatbot
+# fb-chatbot
 NPM module that helps you build a chatbot.
 
-###Getting Started
+### Getting Started
 1. Follow step 1 from the [Messenger Quickstart](https://developers.facebook.com/docs/messenger-platform/quickstart).
 2. Create a black NodeJS app. Add the following code. (Make sure you enter a sane `verify_token`)
   ```
@@ -56,112 +56,137 @@ NPM module that helps you build a chatbot.
   });
   ```
 
-##How to use
-###1. Initialize
+## How to use
+### 1. Initialize
   
   ```
   var fbChatBot = require('fb-chatbot');
   //var bot = new fbChatBot('<webhook url>', <server port>, <fb webhook verify token>, <fb page access token> , true); 
   var bot = new fbChatBot('/webhook/', 3000, process.env.FB_WEBHOOK_VERIFY_TOKEN, process.env.FB_ACCESS_TOKEN, true); 
   ```
-###2. Receive messages
-  
-  You can receive messages by listening to specific events:
-  1. Any type of message received
-    ```
+### 2. Receive messages
+You can receive messages by listening to specific events:
+Any type of message received
+
+```
     bot.on('message', function(message) {
   	  console.log(message);
     });
-    ```
-  
-    Any type of message received from specific user
+```
+
+Any type of message received from specific user
+
     ```
     bot.on('[senderid]->message', function(message) {
   	  console.log(message);
     });
     ```
-    Example:
+    
+Example:
+
     ```
     bot.on('111122223333->message', function(message) {
   	  console.log(message);
     });
     ```
-      Any type of message received for specific page
+    
+Any type of message received for specific page
+
     ```
     bot.on('message->[page_id]', function(message) {
   	  console.log(message);
     });
     ```
-    Example:
+
+Example:
+
     ```
     bot.on('message->111122223333', function(message) {
   	  console.log(message);
     });
     ```
-  2. Text Message received
+    
+Text Message received
+
     ```
     bot.on('text', function(message) {
       console.log(message);
     });
     ```
   
-    Text message received from specific user
+Text message received from specific user
+
     ```
     bot.on('[senderid]->text', function(message) {
       console.log(message);
     });
     ```
-    Example:
+    
+Example:
+
     ```
     bot.on('111122223333->text', function(message) {
       console.log(message);
     });
     ```
-      Text message received for specific page
+    
+Text message received for specific page
+
     ```
     bot.on('text->[page_id]', function(message) {
       console.log(message);
     });
     ```
-    Example:
+    
+Example:
+
     ```
     bot.on('text->111122223333', function(message) {
       console.log(message);
     });
     ```
-  2. Attachment received
+    
+Attachment received
+
     ```
     bot.on('attachment', function(message) {
       console.log(message);
     });
     ```
   
-    Attachment received from specific user
+Attachment received from specific user
+
     ```
     bot.on('[senderid]->attachment', function(message) {
       console.log(message);
     });
     ```
-    Example:
+    
+Example:
+
     ```
     bot.on('111122223333->attachment', function(message) {
       console.log(message);
     });
     ```
-      Attachment received for specific page
+    
+Attachment received for specific page
+
     ```
     bot.on('attachment->[page_id]', function(message) {
       console.log(message);
     });
     ```
-    Example:
+    
+Example:
+
     ```
     bot.on('attachment->111122223333', function(message) {
       console.log(message);
     });
     ```
 
-###3. Send messages
+### 3. Send messages
 
 Messages are sent using the Facebook Graph API.
 ```
