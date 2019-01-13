@@ -69,122 +69,122 @@ You can receive messages by listening to specific events:
 Any type of message received
 
 ```
-    bot.on('message', function(message) {
-  	  console.log(message);
-    });
+bot.on('message', function(message) {
+	console.log(message);
+});
 ```
 
 Any type of message received from specific user
 
-    ```
+```
     bot.on('[senderid]->message', function(message) {
   	  console.log(message);
     });
-    ```
+```
     
 Example:
 
-    ```
+```
     bot.on('111122223333->message', function(message) {
   	  console.log(message);
     });
-    ```
+```
     
 Any type of message received for specific page
 
-    ```
+```
     bot.on('message->[page_id]', function(message) {
   	  console.log(message);
     });
-    ```
+```
 
 Example:
 
-    ```
+```
     bot.on('message->111122223333', function(message) {
   	  console.log(message);
     });
-    ```
+```
     
 Text Message received
 
-    ```
+```
     bot.on('text', function(message) {
       console.log(message);
     });
-    ```
+```
   
 Text message received from specific user
 
-    ```
+ ```
     bot.on('[senderid]->text', function(message) {
       console.log(message);
     });
-    ```
+```
     
 Example:
 
-    ```
+```
     bot.on('111122223333->text', function(message) {
       console.log(message);
     });
-    ```
+```
     
 Text message received for specific page
 
-    ```
+```
     bot.on('text->[page_id]', function(message) {
       console.log(message);
     });
-    ```
+```
     
 Example:
 
-    ```
+```
     bot.on('text->111122223333', function(message) {
       console.log(message);
     });
-    ```
+```
     
 Attachment received
 
-    ```
+```
     bot.on('attachment', function(message) {
       console.log(message);
     });
-    ```
+```
   
 Attachment received from specific user
 
-    ```
+```
     bot.on('[senderid]->attachment', function(message) {
       console.log(message);
     });
-    ```
+```
     
 Example:
 
-    ```
+```
     bot.on('111122223333->attachment', function(message) {
       console.log(message);
     });
-    ```
+```
     
 Attachment received for specific page
 
-    ```
+```
     bot.on('attachment->[page_id]', function(message) {
       console.log(message);
     });
-    ```
+```
     
 Example:
 
-    ```
+```
     bot.on('attachment->111122223333', function(message) {
       console.log(message);
     });
-    ```
+```
 
 ### 3. Send messages
 
