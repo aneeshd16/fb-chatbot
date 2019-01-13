@@ -1,10 +1,10 @@
 var util = require('util');
 var http = require('http');
 var url = require('url');
-var request = require('request');
+var rp = require('request-promise');
 var EventEmitter = require('events').EventEmitter;
 
-var fbChatBot = function(path, port, verify_token, access_token, debug) {
+var fbChatBot = function (path, port, verifyToken, accessToken) {
 
     var self = this;
 
@@ -35,13 +35,13 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
     }
 
     //HTTP Server for listening to webhook
-    http.createServer(function(request, response) {
+    http.createServer(function (request, response) {
         var parsedUrl = url.parse(request.url, true);
         if (parsedUrl.pathname === path) {
             response.writeHead(200, { 'Content-Type': 'text/html' });
             if (request.method === "GET") {
                 //Webhook verification
-                if (parsedUrl.query['hub.verify_token'] === verify_token) {
+                if (parsedUrl.query['hub.verify_token'] === verifyToken) {
                     response.end(parsedUrl.query['hub.challenge']);
                 } else {
                     response.end('Error, wrong validation token');
@@ -49,20 +49,18 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
 
             } else if (request.method === "POST") {
                 var body = '';
-                request.on('data', function(data) {
+                request.on('data', function (data) {
                     body += data;
                 });
-                request.on('end', function() {
+                request.on('end', function () {
                     var postBody = JSON.parse(body);
-                    for (var k = 0; k < postBody.entry.length; k++) {
-                        var messaging_events = postBody.entry[k].messaging;
-                        for (i = 0; i < messaging_events.length; i++) {
-                            var event = messaging_events[i];
+                    postBody.entry.forEach(messagingEvents => {
+                        messagingEvents.forEach(event => {
                             var sender = event.sender.id;
                             var recipient = event.recipient.id;
                             var timestamp = event.timestamp;
                             //Authentication
-                            if(event.optin) {
+                            if (event.optin) {
                                 emitMessageReceivedEvents('authenticated', sender, recipient, event.optin, timestamp, event);
                             }
                             //Receive Messages
@@ -78,11 +76,12 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
                                 }
                             }
                             //Receive Postback
-                            if(event.postback) {
+                            if (event.postback) {
                                 emitMessageReceivedEvents('postback', sender, recipient, event.postback.payload, event);
                             }
-                        }
-                    }
+                        });
+                    });
+
                 });
                 response.writeHead(200, { 'Content-Type': 'text/html' });
                 response.end('post received');
@@ -90,32 +89,31 @@ var fbChatBot = function(path, port, verify_token, access_token, debug) {
         }
     }).listen(port);
 
-    // console.log('Server running at localhost:' + port);
-    function subscribe(callback) {
-    	request({
-    		url: 'https://graph.facebook.com/v2.6/me/subscribed_apps',
-    		qs: { access_token: access_token },
-    		method: 'POST',
-    	}, callback);
+    function subscribe() {
+        return rp({
+            url: 'https://graph.facebook.com/v2.6/me/subscribed_apps',
+            qs: { access_token: accessToken },
+            method: 'POST',
+        });
     }
 
-    function sendMessage(senderId, messageData, callback) {
-        request({
+    function sendMessage(senderId, messageData) {
+        return rp({
             url: 'https://graph.facebook.com/v2.6/me/messages',
-            qs: { access_token: access_token },
+            qs: { access_token: accessToken },
             method: 'POST',
             json: {
                 recipient: { id: senderId },
                 message: messageData,
             }
-        }, callback);
+        });
     }
 
-    function sendTextMessage(sender, text, callback) {
+    function sendTextMessage(sender, text) {
         var messageData = {
             text: text
         };
-        sendMessage(sender, messageData, callback);
+        return sendMessage(sender, messageData);
     }
 
 };

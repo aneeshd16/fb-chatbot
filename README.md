@@ -190,17 +190,21 @@ Example:
 
 Messages are sent using the Facebook Graph API.
 ```
-bot.sendTextMessage(<sender>, <text>, function(error, response, body) {
+bot.sendTextMessage(<sender>, <text>)
+.then(function(response) {
 		
 });
 ```
 Example:
 ```
 bot.on('text', function (event) {
-	console.log('Text received:' + event.data + ' from:' + event.sender);
-	bot.sendTextMessage(event.sender, "Hello you said " + event.data, function(error, response, body) {
-		console.log(error);
-		console.log(body);
-	});
+  console.log('Text received:' + event.data + ' from:' + event.sender);
+  bot.sendTextMessage(event.sender, "Hello you said " + event.data)
+    .then(function(response) {
+
+    })
+    .catch(function(err) {
+
+    })
 });
 ```
